@@ -34,9 +34,8 @@ module APNS
     
     apns_feedback = []
     
-    while line = sock.gets   # Read lines from the socket
-      line.strip!
-      f = line.unpack('N1n1H140')
+    while line = ssl.read(38)   # Read lines from the ssl socket
+      f = line.first.unpack('NnH*')
       apns_feedback << [Time.at(f[0]), f[2]]
     end
     
